@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<system-libraries>
+    <library path="C:/glassfish4/glassfish/modules/org.eclipse.persistence.jpa.jar" source="C:/Users/Geodner/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.jpa/2.5.0-RC2/org.eclipse.persistence.jpa-2.5.0-RC2-sources.jar"/>
+    <library path="C:/glassfish4/glassfish/modules/jersey-container-servlet-core.jar" source="C:/Users/Geodner/.m2/repository/org/glassfish/jersey/containers/jersey-container-servlet-core/2.0/jersey-container-servlet-core-2.0-sources.jar"/>
+    <library path="C:/glassfish4/glassfish/modules/jersey-server.jar" source="C:/Users/Geodner/.m2/repository/org/glassfish/jersey/core/jersey-server/2.0/jersey-server-2.0-sources.jar"/>
+    <library path="C:/glassfish4/glassfish/modules/org.eclipse.persistence.core.jar" source="C:/Users/Geodner/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.core/2.5.0-RC2/org.eclipse.persistence.core-2.5.0-RC2-sources.jar"/>
+    <library path="C:/glassfish4/glassfish/modules/jersey-common.jar" source="C:/Users/Geodner/.m2/repository/org/glassfish/jersey/core/jersey-common/2.0/jersey-common-2.0-sources.jar"/>
+</system-libraries>

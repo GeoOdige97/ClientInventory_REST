@@ -1,0 +1,85 @@
+@CHARSET "ISO-8859-1";
+
+
+body{
+	
+}
+h3,h4{
+	text-align: center;
+	color:white;
+}
+
+.formContainerWrapper{
+	background-image: url("../images/office.jpg");
+	background-size: cover;
+    background-repeat: no-repeat;
+	
+}
+
+h2 {
+	margin-top: 20px;
+	text-align: left;
+	padding-top: 20px;
+	margin-left: 15px;
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+
+#formContainer {
+	margin: auto;
+	background-color:rgba(45, 46, 48,0.2);
+	position: relative;
+	padding: 0;
+	outline: 0;
+	padding-top:150px;
+	padding-bottom:150px;
+
+}
+
+#formContent {
+	margin-right:25%;
+	margin-left:25%;
+	width: 600px;
+	height:350px;
+	background-color: rgba(20, 35, 56,0.7);
+	border-style: solid;
+	border-color: #2e4463;
+	border-width: 5px;
+
+	
+}
+
+#formContent > div{
+	margin-right:15%;
+	margin-left:15%;}
+
+.form-input input, .form-input input[type="date"] {
+	width: 100%;
+	height: 35px;
+	padding: 10px;
+	overflow-wrap: break-word;
+}
+
+.form-label label {
+	width: 130px;
+	height: 35px;
+	padding: 10px;
+	text-align: right;
+	overflow-wrap: break-word;
+}
+
+#loginButton{
+	width:100%;
+	height: 35px;
+	
+}
+
+
+
+
+
+
+

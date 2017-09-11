@@ -1,0 +1,208 @@
+@CHARSET "UTF-8";
+
+h2 {
+	
+	margin-top: 0px;
+	text-align: left;
+	padding-top: 20px;
+	margin-left: 15px;
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+.modalDeviceTitleWrapper {
+	background-image: url("../images/motherBoard.jpg");
+	background-size: 100% 200px;
+	background-repeat: no-repeat;
+	background-position-y: -100px;
+}
+
+.modalDeviceTitleWrapper .modalTitle {
+	background-color: rgba(64, 64, 161, 0.75);
+	height: 85px;
+}
+
+.deviceFormHideList { /* Main container of the form*/
+	width: 60%;
+	height: 525px;
+	border: 0px solid #323335;
+	color: white;
+	background-color: #484f4f;
+	
+}
+
+.deviceFormShowList { /* Main container of the form*/
+	width: 85%;
+	height: 525px;
+	border: 0px solid #323335;
+	color: white;
+	background-color: #484f4f;
+}
+
+.deviceContainerWrapper {
+	background-image: url("../images/server.jpg");
+	background-size: 100% 500px;
+	background-repeat: no-repeat;
+}
+
+.deviceContainerClass { /*Style for the device form*/
+	padding-left: 10px;
+	padding-top: 7px;
+	width: 100%;
+	height: 375px;
+	background-color: rgba(25, 25, 25,.85);
+	overflow-y: auto;
+	z-index: 5;
+}
+
+.mapModal {
+/* 	width: 100%;
+	height: 60%; */
+}
+
+.modalButtonPanel {
+	width: 100%;
+	background-color: #3e414d;
+	z-index: 5;
+	margin-bottom: 20px;
+}
+
+.modalButtonInfo {
+	/* border-radius: 0px; */
+	
+}
+
+.circleButton {
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	padding: 6px 0;
+	font-size: 12px;
+	line-height: 1.428571429;
+	border-radius: 6px;
+}
+
+.viewDevice input {
+	color: white;
+	background: none;
+	border-style: none;
+	padding-top: 7px;
+	padding-left: 15px;
+}
+
+.editDevice input {
+	color: black;
+}
+
+.addDevice input {
+	color: black;
+}
+
+.modalShowList {
+	width: 65%;
+	height: 100%;
+	background-color: #3e414d;
+}
+
+.modalHideList {
+	width: 100%;
+	height: 100%;
+	background-color: #3e414d;
+	/* float: left */
+}
+
+.listShoW {
+/* 	width: 35%;
+	height: 100%;
+	float: left;
+	background-color: #484f4f; */
+}
+
+.listHide {
+	
+}
+
+
+.inputSelector input{
+	background-color: rgba(255,255,255,0);
+	border-style: 10px solid white;
+	color: white;
+	
+}
+
+#close {
+	float: right;
+	margin-right: 10px;
+	color: rgba(255, 255, 255, 1);
+	/* 	//position:fixed; */
+}
+
+.bkgd-color-navyBlue {
+	background-color: #142338;
+}
+
+.bkgd-color-darkGold {
+	background-color: #B8860B;
+}
+
+#deviceModal {
+	padding-top: 50px;
+	z-index: 5;
+}
+
+.form-input input[type="text"],.form-input input[type="date"]{
+	width: 200px;
+	height: 35px;
+	padding: 10px;
+	overflow-wrap: break-word;
+}
+
+.form-label label {
+	width: 120px;
+	height: 35px;
+	padding: 10px;
+	text-align: right;
+	overflow-wrap: break-word;
+}
+
+.disableForm { 
+	
+}
+
+/* #userList .modalTitle {
+	width: 100%;
+} */
+
+#rightFrame{
+	width: 35%;
+	height: 100%;
+	float: left;
+	background-color: #484f4f;
+}
+#leftFrame{
+	float:left;
+}
+
+#topRightContainer {
+	width: 100%;
+	height: 50%;
+}
+
+#bottomLeftContainer {
+	width: 100%;
+	height: 50%;
+	padding-top: 15px;
+}
+
+#inventTableId thead tr th:nth-child(5) {
+	display: none;
+}
+
+#inventTableId tbody tr td:nth-child(5) {
+	display: none;
+}
+
+
+

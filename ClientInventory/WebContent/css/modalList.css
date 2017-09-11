@@ -1,0 +1,178 @@
+/* CSS styles for the for list inside the device modal
+** as well as default layout for the different lists.
+** The following lists are:
+** User, Location, Product and Type
+*/
+
+/* ------- Default list classes ------- */
+
+#locationTableId_filter label, #userTableId_filter label,
+#typeTableId_filter label, #productTableId_filter label {
+	text-align: left;
+	width: 100%;
+	color: white;
+}
+
+#locationTableId_filter, #userTableId_filter,
+#typeTableId_filter, #productTableId_filter{
+	float: left;
+	width: 435px;
+	padding: 15px 15px 15px 15px;
+	background-color: #484f4f;
+}
+
+/* ------- User classes ------- */
+
+.modalUserTitleWrapper {
+	background-image: url("../images/userNetwork.jpg");
+	background-size: 100% 200px;
+	background-repeat: no-repeat;
+	background-position-y: -60px;
+}
+
+.modalUserTitleWrapper .modalTitle {
+	background-color: rgba(20, 35, 56, 0.75);
+	height: 85px;
+}
+
+.userTable-columnHead thead tr th {
+	background-color: #142338;
+}
+
+.userTable-stripes tr:nth-child(odd) {
+	background-color: #2f5183;
+}
+
+.userTable-stripes tr:nth-child(even) {
+	background-color: #142338;
+}
+
+/* .userTable-stripes tr:nth-child(odd) {
+	background-color: #2f5183;
+}
+ */
+#userList .modalTitle {
+	width: 100%;
+}
+
+#userList tbody tr td:nth-child(3) {
+	display: none;
+}
+
+#userList thead tr th:nth-child(3) {
+	display: none;
+}
+
+/* ------- Location classes ------- */
+
+.modalLocationTitleWrapper {
+	background-image: url("../images/maps.jpg");
+	background-size: 100% 200px;
+	background-repeat: no-repeat;
+	background-position-y: -60px;
+}
+
+.modalLocationTitleWrapper .modalTitle {
+	background-color: rgba(184, 134, 11, 0.75);
+	height: 85px;
+}
+
+.locationTable-columnHead thead tr th {
+	background-color: #B8860B;
+}
+
+.locationTable-stripes tr:nth-child(odd) {
+	background-color: #C5B358;
+}
+
+.locationTable-stripes tr:nth-child(even) {
+	background-color: #B8860B;
+}
+
+#locationList .modalTitle {
+	width: 100%;
+}
+
+#locationList tbody tr td:nth-child(3) {
+	display: none;
+}
+
+#locationList thead tr th:nth-child(3) {
+	display: none;
+}
+
+/* ------- Product classes ------- */
+
+.modalProductTitleWrapper {
+	background-image: url("../images/product.jpg");
+	background-size: 100% 200px;
+	background-repeat: no-repeat;
+	background-position-y: -60px;
+}
+
+.modalProductTitleWrapper .modalTitle {
+	background-color: rgba(184, 134, 11, 0.75);
+	height: 85px;
+}
+
+.productTable-columnHead thead tr th {
+	background-color: #B8860B;
+}
+
+.productTable-stripes tr:nth-child(odd) {
+	background-color: #C5B358;
+}
+
+.productTable-stripes tr:nth-child(even) {
+	background-color: #B8860B;
+}
+
+#productList .modalTitle {
+	width: 100%;
+}
+
+#productList tbody tr td:nth-child(3) {
+	display: none;
+}
+
+#productList thead tr th:nth-child(3) {
+	display: none;
+}
+
+/* ------- Type classes ------- */
+
+.modalTypeTitleWrapper {
+	background-image: url("../images/type.jpg");
+	background-size: 100% 200px;
+	background-repeat: no-repeat;
+	background-position-y: -60px;
+}
+
+.modalTypeTitleWrapper .modalTitle {
+	background-color: rgba(184, 134, 11, 0.75);
+	height: 85px;
+}
+
+.typeTable-columnHead thead tr th {
+	background-color: #B8860B;
+}
+
+.typeTable-stripes tr:nth-child(odd) {
+	background-color: #C5B358;
+}
+
+.typeTable-stripes tr:nth-child(even) {
+	background-color: #B8860B;
+}
+
+#typeList .modalTitle {
+	width: 100%;
+}
+
+#typeList tbody tr td:nth-child(3) {
+	display: none;
+}
+
+#typeList thead tr th:nth-child(3) {
+	display: none;
+}

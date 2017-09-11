@@ -1,0 +1,43 @@
+<form id="userInfo" name="userButton" autocomplete="off">
+ <div style="float:left;">
+<div id="modalUser0">
+	<label for="user">User:</label>
+	<input id="user" type="text" name="user[id]" placeholder="Select a User" />
+	<i id="changeUser" class="fa fa-pencil-square-o"></i>
+</div>
+<br>
+<div id="modalUser1">
+	<label for="companyTitle">Company Title:</label>
+	<input id="companyTitle" type="text" name="companyTitle:skip" placeholder="Company Title"/>
+</div>
+<br>
+<div id="modalUser2">
+	<label for="officeEmail">Office Email:</label>
+	<input id="officeEmail" type="text" name="officeEmail:skip" placeholder="Office Email" />
+</div>
+<br>
+<div id="modalUser3">
+	<label for="department">Department</label>
+	<input id="department" type="text" name="department[id]:skip" placeholder="Department" />
+</div>
+<br>
+</div>
+<div style="float:left;">
+	<div id="modalUser4">
+	<label for="dateRented">Date Rented:</label>
+	<input id="dateRented" name="dateRented" type="text" placeholder="Select or enter date" 
+		data-validation="date" 
+		data-validation-format="yyyy-mm-dd"
+		data-validation-error-msg="The format for the date has to be YYYY-MM-DD"/>
+	</div>
+	<br>
+	<div id="modalUser5">
+	<label for="dateReturn">Date Return:</label>
+	<input id="dateReturn" name="dateReturn" type="text" placeholder="Select or enter date"
+		data-validation="date" 
+		data-validation-format="yyyy-mm-dd"
+		data-validation-error-msg="The format for the date has to be YYYY-MM-DD"/>
+	</div>
+	<br>
+</div>
+</form>
