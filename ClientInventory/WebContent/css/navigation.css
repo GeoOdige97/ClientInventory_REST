@@ -2,6 +2,18 @@
 
 html, body, h1, h2, h3, h4, h5 {
 	font-family: "PT+Sans", sans-serif;
+	color:white;
+}
+
+p,span,th{
+	color:white;
+}
+th{
+	background-color: rgba(5, 59, 97, 1);
+}
+
+body{
+	background-color:rgba(194, 194, 194, 1);
 }
 
 ul{
@@ -16,22 +28,21 @@ li{
 	padding-top:4px;
 	padding-bottom:4px;
 	margin:0;
-	
 }
 
 .main-sideBar {
-    height: 100%; /* 100% Full-height */
-    position: fixed; /* Stay in place */
+    height: 100%;
+    position: fixed; 
     width:175px;
     top: 0;
     left: 0;
     float:left;
     z-index:1;
-    background-color: #032251  ; /* Black*/
-    overflow-x: hidden; /* Disable horizontal scroll */
-    overflow-y: disabled; /* Disable horizontal scroll */
-    padding-top: 150px; /* Place content 60px from the top */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    background-color:rgba(5, 59, 97, 1) ;
+    overflow-x: hidden; 
+    overflow-y: disabled; 
+    padding-top: 150px;
+    transition: 0.5s; 
 }
 
 .main-sideBar-text a {
@@ -41,7 +52,7 @@ li{
     color: white;
     display: block;
     transition: 0.3s;
-    background-color: #032251;
+    background-color: rgba(5, 59, 97, 1);
 }
 
 
@@ -54,7 +65,7 @@ li{
 
 #topNav{
 	padding:12px;
-	background-color:#011533;
+	background-color:rgba(3, 38, 63, 1);
 	width:100%;
 	top:0;
 	left:0;
@@ -63,15 +74,19 @@ li{
 	color:white;
 }
 
-#closeSideBar{
+/* #closeSideBar{
 	color:white;
 	position:fixed;
 	margin-left:180px;
 	margin-top:-100px;
 }
+ */
+#functionalityPanel{
 
-#functionalityPanel button{
-	float:right;
-	padding: 12px;
+	padding: 8px;
+	width:100%; 
 	
+}
+#footer{
+	background-color: rgba(3, 38, 63, 1);
 }
