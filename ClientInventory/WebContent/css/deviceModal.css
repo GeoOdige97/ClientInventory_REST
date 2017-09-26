@@ -13,6 +13,15 @@ h2 {
 	display: none;
 }
 
+.disableDeviceContainer{
+	background-color: rgba(255,255,255,0.95);
+	z-index:3;
+}
+
+.enableDeviceContainer{
+	background-color: rgba(255,255,255,0);
+}
+
 .modalDeviceTitleWrapper {
 	background-image: url("../images/motherBoard.jpg");
 	background-size: 100% 200px;
@@ -75,16 +84,6 @@ h2 {
 	
 }
 
-.circleButton {
-	width: 30px;
-	height: 30px;
-	text-align: center;
-	padding: 6px 0;
-	font-size: 12px;
-	line-height: 1.428571429;
-	border-radius: 6px;
-}
-
 .viewDevice input {
 	color: white;
 	background: none;
@@ -94,7 +93,10 @@ h2 {
 }
 
 .editDevice input {
-	color: black;
+	color: white;
+	background: none;
+	padding-top: 7px;
+	padding-left: 15px;
 }
 
 .addDevice input {
@@ -129,6 +131,12 @@ h2 {
 .inputSelector input{
 	background-color: rgba(255,255,255,0);
 	border-style: 10px solid white;
+	color: white;
+	
+}
+.singleInputSelector{
+	background-color: rgba(255,255,255,0);
+	border-style: outset;
 	color: white;
 	
 }

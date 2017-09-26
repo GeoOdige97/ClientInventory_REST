@@ -1,17 +1,23 @@
-//Helper
+//
+// Helpes
+//
+
+// convert a string to json
 function createJSON(fieldName, value) {
 	var obj = {};
 	obj[fieldName.valueOf()] = value;
 	var json = JSON.stringify(obj);
 	return json;
 }
+
+// Clear the values inside the form input
 function resetFormInput(){
 	$("form").each(function(){
 		$(this).get(0).reset();
 	});
 }
 
-// Helper
+// Convert a serialized-array to a json object
 function serializedArrayToJSON(serializedData) {
 	var jsonObject = "{";
 	var dataLength = serializedData.length;
@@ -29,7 +35,8 @@ function serializedArrayToJSON(serializedData) {
 	return jsonObject;
 }
 
-// Helper
+// Creates URIs to communicate between
+// the client and the server
 var Services = function() {
 
 	this.serviceEntity = "";
@@ -111,7 +118,8 @@ var Services = function() {
 	}
 }
 
-// helper
+// The AJAX method is called depending on the method
+// json data can also be added to envelope
 function sendAjax(messageType, serviceName, jsonData) {
 
 	//alert(serviceName);
@@ -138,10 +146,10 @@ function sendAjax(messageType, serviceName, jsonData) {
 		});
 	}
 
-	return "";
+	return ""; 
 }
 
-// helper
+// Re-center the location on the google map
 function newLocation(newLat, newLng) {
 	map.setCenter({
 		lat : newLat,
@@ -149,7 +157,7 @@ function newLocation(newLat, newLng) {
 	});
 }
 
-// helper
+// initialize the google map api
 var map;
 function loadMap(lat, lng) {
 	  map = new google.maps.Map(document.getElementById("map"), {
@@ -158,7 +166,7 @@ function loadMap(lat, lng) {
 	  });
 }
 
-// helper
+// Get a file using AJAX
 function getHtmlFile(url) {
 	return $.ajax({
 		url : url,
@@ -167,6 +175,7 @@ function getHtmlFile(url) {
 	});
 }
 
+// Get many files using AJAX
 function getAllHtmlFiles(files) {
 	var htmlInfos;
 	for (var i = 0; i < files.length; i++) {
@@ -178,10 +187,12 @@ function getAllHtmlFiles(files) {
 	return htmlInfos;
 }
 
-//Helper
+// Verifies if the received json values
+// satisfies the conditions need to be 
+// displayed on the client side
 var FormChecker = function() {
 
-	this.empty;
+	this.notEmpty;
 	this.phoneNumber;
 	this.emailAddress ;
 	this.minLength ;
@@ -262,12 +273,12 @@ var FormChecker = function() {
 		return this;
 	}
  
-	FormChecker.prototype.empty = function() {
+	FormChecker.prototype.notEmpty = function() {
 		this.isEmpty();
 		if (this.error["empty"] === true) {
-			this.formValue = false;
+			this.formValue = true;
 		}
-		return true;
+		return false;
 	}
 
 	FormChecker.prototype.jsonExistAndNotEmpty = function(jsonProperty) {
@@ -275,9 +286,11 @@ var FormChecker = function() {
 			if(this.json[jsonProperty] !== null){
 				if(this.json[jsonProperty].hasOwnProperty(this.formValue)){
 					if(this.json[jsonProperty][this.formValue] !== null){
-					if(this.json[jsonProperty][this.formValue].length > 0)
+					if(this.json[jsonProperty][this.formValue].length > 0 ||
+						typeof(this.json[jsonProperty][this.formValue]) === "boolean" ||
+						$.isNumeric(this.json[jsonProperty][this.formValue]))
 						return this.result = true;
-				}
+					}
 					
 				}
 			}

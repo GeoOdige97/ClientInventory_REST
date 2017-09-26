@@ -41,6 +41,7 @@ $(document).ready(function() {
 		var html1 = "html/device/modal/NetworkInfo.html";
 		var files = [html1];
 		
+		// Get the selected device from the table
 		$.when(
 			new Services().get().entity("device").path("find").uriData(Number(rowData[4])).promise(),
 			getAllHtmlFiles(files)
@@ -52,7 +53,6 @@ $(document).ready(function() {
 			var device = deviceData[0];
 			sessionStorage["device"] = JSON.stringify(device);
 			
-
 			// General device data
 			setGeneralInfo(device);
 			//Network device data
@@ -66,19 +66,27 @@ $(document).ready(function() {
 			
 			// Get device's detail depending 
 			// on the device type
+			$("#infoButtons").children().show();
 			if(device[0].computer !== null){
-				deviceDetailFile.push("html/device/modal/ComputerInfo.html");
 				$("#deviceDetailButton").text("Computer");
+				$("#deviceDetailButton").show();
+				deviceDetailFile.push("html/device/modal/ComputerInfo.html");
 				deviceType = "Computer";
 			}
 			else if(device[0].printer !== null){
-				deviceDetailFile.push("html/device/modal/PrinterInfo.html");
 				$("#deviceDetailButton").text("Printer");
+				$("#deviceDetailButton").show();
+				deviceDetailFile.push("html/device/modal/PrinterInfo.html");
 				deviceType = "Printer";
+			}
+			else{
+				$("#deviceDetailButton").text("");
+				$("#deviceDetailButton").hide();
 			}
 			// Load Device detail form info, if any
 			if(deviceDetailFile.length > 0){
 				$("#deviceDetailInfo").append(getAllHtmlFiles(deviceDetailFile));
+				$("#deviceDetailInfo").show();
 				
 				// Load Computer data
 				if(deviceType == "Computer"){
@@ -94,13 +102,14 @@ $(document).ready(function() {
 			$("#deviceInfoForm").removeClass("editDevice");
 			$("#deviceInfoForm").removeClass("addDevice");
 			$("#modalTitleText").html("Device");
-			$("#infoButtons").children().show();
+			//$("#infoButtons").children().show();
 	
+			// Add the button switch functionalities
 			modalButtonSetup("generalButton");
 			
 			$("#showNetworkInfo").hide();
 			$("#showDeviceDetailInfo").hide();
-			$("#deviceDetailButton").hide();
+	
 			$("#deviceContainer .fa-pencil-square-o").hide();
 			$("#deviceModal").css("display","block");
 			$("label").addClass("control-label");
@@ -110,12 +119,13 @@ $(document).ready(function() {
 			google.maps.event.trigger(map, 'resize');	
 
 		}).fail(function(){
-			alert("when fails");
+			alert("Could not load the requested device");
 		});			 	
 	});
 		
 });
 
+// Builds the device modal by getting the needed files 
 function setUpModal(){
 	
 	var html1 = "html/device/modal/DeviceGenaralInfo.html";
@@ -126,7 +136,6 @@ function setUpModal(){
 	var html6 = "html/device/modal/CostInfo.html";
 	
 	var htmlInfo;
-	
 	var files = [html1,html3,html4,html5,html6]
 	
 	htmlInfo = getAllHtmlFiles(files);
@@ -142,22 +151,22 @@ function setGeneralInfo(data){
 	var defaultValue = "N\\A";
 	
 	var deviceFC = new FormChecker().setJson(device);
-	var typeFC = new FormChecker().setJson(type);
-	var productFC = new FormChecker().setJson(product);
+	var typeFC = new FormChecker().setJson(product);
+	var productFC = new FormChecker().setJson(device);
 	var registrationFC = new FormChecker().setJson(registration);
 
-	
+	// Verifies if the json properties exist and are not empty
 	var nameBool = deviceFC.setFormValue("name").jsonExistAndNotEmpty("product");
 	var modelBool = deviceFC.setFormValue("model").jsonExistAndNotEmpty("product");
-	var conditionBool = deviceFC.setFormValue("condition").jsonExistAndNotEmpty("product");
-	var typeBool =  productFC.setFormValue("name").jsonExistAndNotEmpty("type");
-	var companyBool = deviceFC.setFormValue("company").jsonExistAndNotEmpty("product");
-	var serialNumberBool = registrationFC.setFormValue("serialNumber").empty();
+	var conditionBool = deviceFC.setFormValue("condition").notEmpty();
+	var typeBool =  typeFC.setFormValue("name").jsonExistAndNotEmpty("type");
+	var companyBool = productFC.setFormValue("company").jsonExistAndNotEmpty("product");
+	var serialNumberBool = registrationFC.setFormValue("serialNumber").notEmpty();
 
 	// General device data
 	$("#name").val(nameBool? product.name: defaultValue);
 	$("#model").val(modelBool? product.model:defaultValue);
-	$("#condition").val(conditionBool? product.condition:defaultValue);
+	$("#condition").val(conditionBool? device.condition:defaultValue);
 	$("#type").val(typeBool? type.name:defaultValue);
 	$("#company").val(companyBool? product.company:defaultValue);
 	$("#serialNumber").val(serialNumberBool? device.serialNumber:defaultValue);
@@ -171,6 +180,7 @@ function setNetworkInfo(data){
 	var networkFC = new FormChecker().setJson(device);
 	var defaultValue = "N\\A";
 	
+	// Verifies if the json properties exist and are not empty
 	var ipAddressBool = networkFC.setFormValue("ipAddress").jsonExistAndNotEmpty("network");
 	var dnsBool =  networkFC.setFormValue("dns").jsonExistAndNotEmpty("network");
 	var serverBool =  networkFC.setFormValue("server").jsonExistAndNotEmpty("network");
@@ -194,6 +204,7 @@ function setUserInfo(data){
 	var userFC = new FormChecker().setJson(registration);
 	var departmentFC = new FormChecker().setJson(user);
 	
+	// Verifies if the json properties exist and are not empty
 	var firstNameBool = userFC.setFormValue("firstName").jsonExistAndNotEmpty("user");
 	var lastNameBool  = userFC.setFormValue("lastName").jsonExistAndNotEmpty("user");
 	var departmentNameBool  = departmentFC.setFormValue("name").jsonExistAndNotEmpty("department");
@@ -215,6 +226,7 @@ function setLocationInfo(data){
 	var locationFC = new FormChecker().setJson(device);
 	var defaultValue = "N\\A";
 	
+	// Verifies if the json properties exist and are not empty
 	var countryBool = locationFC.setFormValue("country").jsonExistAndNotEmpty("location");
 	var cityBool = locationFC.setFormValue("city").jsonExistAndNotEmpty("location");
 	var addressBool = locationFC.setFormValue("address").jsonExistAndNotEmpty("location");
@@ -226,6 +238,7 @@ function setLocationInfo(data){
 	$("#city").val(cityBool?location.city:defaultValue);
 	$("#postalCode").val(postalCodeBool?location.postalCode:defaultValue);
 	
+	// The map is loaded on if the property exist
 	if (location !== null){
 		loadMap(parseFloat(location.latitude), parseFloat(location.longitude));
 		google.maps.event.trigger(map, "resize");
@@ -239,6 +252,7 @@ function setPrinterInfo(data){
 	var printerFC = new FormChecker().setJson(device);
 	var defaultValue = "N\\A";
 	
+	// Verifies if the json properties exist and are not empty
 	var wifiBool = printerFC.setFormValue("wifi").jsonExistAndNotEmpty("printer");
 	var scannerBool = printerFC.setFormValue("scanner").jsonExistAndNotEmpty("printer");
 	var photoCopyBool = printerFC.setFormValue("photoCopy").jsonExistAndNotEmpty("printer");
@@ -264,8 +278,9 @@ function setComputerInfo(data){
 	var computerFC = new FormChecker().setJson(device);
 	var defaultValue = "N\\A";
 	
-	var ramBool = computerFC.setFormValue(computer.ram).jsonExistAndNotEmpty("computer");
-	var cpuBool = computerFC.setFormValue(computer.cpu).jsonExistAndNotEmpty("computer");
+	// Verifies if the json properties exist and are not empty
+	var ramBool = computerFC.setFormValue("ram").jsonExistAndNotEmpty("computer");
+	var cpuBool = computerFC.setFormValue("cpu").jsonExistAndNotEmpty("computer");
 	
 	// Computer data
 	$("#ram").val(ramBool? computer.ram:defaultValue);
@@ -279,8 +294,9 @@ function setRegistration(data){
 	var registrationListFC = new FormChecker().setJson(device);
 	var defaultValue = "N\\A";
 	
-	var dateRentedBool = registrationListFC.setFormValue(registrationList.dateRented).empty();
-	var dateReturnBool = registrationListFC.setFormValue(registrationList.dateReturn).empty();
+	// Verifies if the json properties exist and are not empty
+	var dateRentedBool = registrationListFC.setFormValue(registrationList.dateRented).notEmpty();
+	var dateReturnBool = registrationListFC.setFormValue(registrationList.dateReturn).notEmpty();
 	
 	// Registration Data
 	$("#dateRented").val(dateRentedBool?registrationList.dateRented:defaultValue);
@@ -288,6 +304,7 @@ function setRegistration(data){
 	
 }
 
+// Set the main device table
 function initializeTable(data) {
 	var table = $("#inventTableId").DataTable();
 	for (var i = 0; i < data.length; i++){
@@ -302,7 +319,8 @@ function initializeTable(data) {
 	table.draw();
 	
 }
-
+// If adding the device to the server is a success,
+// add the device to the device client table
 function addDeviceToTable(data){
  	var table = $("#inventTableId").DataTable();
  	for (var i = 0; i < data.length; i++){

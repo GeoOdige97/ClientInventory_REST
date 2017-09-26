@@ -4,7 +4,7 @@ $(document).ready(function() {
 	//----- Register a user to the Device -----
 	//----- Select a user from the provided list -----
 	$(document).on("click", "#newUserButton, #changeUser", function () {
-		var path = "html/UserList.html";
+		var path = "html/device/lists/UserList.html";
 		var entity = "user";
 		showList();
 		loadModalList(path,entity);
@@ -13,7 +13,7 @@ $(document).ready(function() {
 	//----- Register a product to the Device -----
 	//----- Select a product from the provided list -----
 	$(document).on("click", "#newProductButton, #changeProduct", function () {
-		var path = "html/ProductList.html";
+		var path = "html/device/lists/ProductList.html";
 		var entity = "product";
 		showList();
 		loadModalList(path,entity);
@@ -22,7 +22,7 @@ $(document).ready(function() {
 	//----- Register a location to the Device -----
 	//----- Select a location from the provided list -----
 	$(document).on("click", "#newLocationButton, #changeLocation", function () {
-		var path = "html/LocationList.html";
+		var path = "html/device/lists/LocationList.html";
 		var entity = "location";
 		showList();
 		loadModalList(path,entity);
@@ -31,7 +31,7 @@ $(document).ready(function() {
 	//----- Register a type to the Product -----
 	//----- Select a type from the provided list -----
 	$(document).on("click", "#newTypeButton, #changeType", function () {
-		var path = "html/TypeList.html";
+		var path = "html/device/lists/TypeList.html";
 		var entity = "type";
 		showList();
 		loadModalList(path,entity);
@@ -80,29 +80,26 @@ $(document).ready(function() {
 			if ($("#deviceDetailInfo").children().length === 0){
 				addDeviceSequence();
 			}
-		
 	});
 	
 	//----- Add a Device -----
 	$(document).on("click", "#newDevice,#addDevice", function () {
 		setUpModal();
 		modalButtonSetup("generalButton");
-		resetFormInput();
-		addDeviceSequence();
+		resetFormInput(); 
+		addDeviceSequence(); // Set up the sequencer to add a device
 		$.validate();
 		
 		$("#deviceInfoForm").removeClass("editDevice");
 		$("#deviceInfoForm").removeClass("viewDevice");
 		$("#deviceModal").css("display","block");
 		$("label").addClass("control-label");
-		$("#modalTitleText").html("New Device");
+		$("#modalTitleText").html("New Device Registration");
 
 		$("#deviceInfoForm").addClass("addDevice");
 		$("#leftFrame").addClass("inputSelector");
 		
 		$("#deviceContainer input").prop("readonly", true);
-		$("#dateRented").prop("readonly", false);
-		$("#dateRenturn").prop("readonly", false);
 		$("#serialNumber").prop("readonly", false);
 		$("#condition").prop("readonly", false);
 		$("#detailInfo input").prop("readonly", false);
@@ -118,12 +115,20 @@ $(document).ready(function() {
 	$(document).on("click", "#editDevice", function () {	
 		var device = JSON.parse(sessionStorage["device"]);
 
+		// Make the input field editable 
 		$("#deviceInfoForm").removeClass("viewDevice");
-		$("#deviceInfoForm").addClass("editDevice");	
-		$("#modalTitleText").html("Edit Device");
-		$("input").prop('readonly', false);
-		$("select").prop('readonly', false);
-
+		$("#deviceContainer").addClass("editDevice");	
+		$("#modalTitleText").html("Edit Device Registration");
+		$("#serialNumber").prop("readonly", false);
+		$("#condition").prop("readonly", false);
+		$("#deviceDetailInfo input").prop("readonly", false);
+		$("#networkInfo input").prop("readonly", false);
+		$("#deviceContainer .fa-pencil-square-o").not("#changeProduct").show();
+		
+		// Add date selector for the following fields
+		$("#dateRented").datepicker({dateFormat: "yy-mm-dd"});
+		$("#dateReturn").datepicker({dateFormat: "yy-mm-dd"});
+		
 		google.maps.event.trigger(map, 'resize');
 
 	});
@@ -136,7 +141,6 @@ $(document).ready(function() {
 	//----- Location has been selected  -----
 	$(document).on("click", "#locationTableId tbody tr", function () {
 		selectedLocation(this);
-		
 	});
 
 	//----- Product has been selected -----
@@ -151,6 +155,7 @@ $(document).ready(function() {
 		var deviceId = sessionDevice.id;
 		var table;
 
+		// Remove the selected device from the server side
 		$.when(
 			new Services().entity("device").remove().uriData(deviceId).promise()
 		).done(function(){
@@ -158,37 +163,50 @@ $(document).ready(function() {
 			table.column("id").search(deviceId).row().remove().draw();
 			$("#close").trigger("click");
 		}).fail(function(){
-			alert("when fails");
+			alert("Could not remove the selected device");
 		});		
 	});
 
 	//----- Register the device and refresh the table -----
 	$(document).on("click", "#saveButtonId", function () {
+		
 		var sessionLocation = JSON.parse(sessionStorage["location"]);
 		var sessionUser = JSON.parse(sessionStorage["user"]);
 		var sessionProduct = JSON.parse(sessionStorage["product"]);
-		var device =  $("#generalInfo").serializeJSON({parseWithFunction: emptyStringsAndZerosToNulls});
-		var location =  $("#locationInfo").serializeJSON({parseWithFunction: emptyStringsAndZerosToNulls});
-		var user =  $("#userInfo").serializeJSON({parseWithFunction: emptyStringsAndZerosToNulls});
-		var detail =  $("#deviceDetailInfo").serializeJSON({parseWithFunction: emptyStringsAndZerosToNulls});
-		var network =  $("#networkInfo").serializeJSON({parseWithFunction: emptyStringsAndZerosToNulls});
-	
-		device.location.id = sessionLocation.id;
-		device.user.id = sessionUser.id;
-		device.product.id = sessionProduct.id;
-		var jsonDevice = JSON.stringify(device);
 		
-		// if add network boolean is false remove json network
-		// if add computer boolean is false remove json computer
-		// if add printer boolean is false remove json printer
-		//alert("Device json list  " + jsonDevice);
+		var device =  $("#generalInfo").serializeJSON({parseWithFunction: emptyStringsAndZerosToNulls});
+		var user =  $("#userInfo").serializeJSON({parseWithFunction: emptyStringsAndZerosToNulls}); // registration info
+		var detail =  $("#deviceDetailInfo").serializeJSON({parseWithFunction: emptyStringsAndZerosToNulls}); // comp,print
+		var network =  $("#networkInfo").serializeJSON({parseWithFunction: emptyStringsAndZerosToNulls});
+		
+		device.location = {id:sessionLocation.id};
+		device.product = {id:sessionProduct.id};
+		device.network = formIsEmpty(network)?null:network;
+		
+		if ($("#type").val() === "Printer"){
+			device.printer = formIsEmpty(detail)?null:detail;
+		}
+		else if ($("#type").val() === "Laptop"||
+				$("#type").val() === "Desktop"||
+				$("#type").val() === "Tablet"||
+				$("#type").val() === "Hybrid Laptop"||
+				$("#type").val() === "Server"){
+			device.computer = formIsEmpty(detail)?null:detail;
+		}
+		
+		var registration = {dateRented:user.dateRented,dateReturn:user.dateReturn,user:{id:sessionUser.id}}
+		var jsonList = {device:device,registration:registration};
+
+		var jsonDevice = JSON.stringify(jsonList);
+		
+		alert(jsonDevice);
 
 		$.when(
 			new Services().post().entity("device").add().jsonData(jsonDevice).promise()
 		).done(function(data){
 			addDeviceToTable (data);
 		}).fail(function(){
-			alert("when fails");
+			alert("Could not save the device");
 		});		
 	});	
 }); // End of document ready
@@ -199,6 +217,8 @@ function showList(){
 	$("#leftFrame").addClass("modalShowList");
 	$("#rightFrame").removeClass("listHide");
 	$("#rightFrame").addClass("listShow");
+	$("#leftFrame :input").prop("disabled", true);
+	$("#leftFrame i").prop("disabled", true);
 	$("#rightFrame").show();
 }
 
@@ -207,6 +227,9 @@ function hideList(){
 	$("#deviceInfoForm").removeClass("deviceFormShowList");
 	$("#leftFrame").removeClass("modalShowList");
 	$("#leftFrame").addClass("modalHideList");
+	$("#containerWrapper").addClass("enableDeviceContainer");
+	$("#leftFrame :input").prop("disabled", false);
+	$("#leftFrame i").prop("disabled", false);
 	$("#rightFrame").hide();
 }
 
@@ -214,9 +237,11 @@ function selectedProduct(e){
 	var table = $('#productTableId').DataTable();
 	var rowData = table.row(e).data();
 
+	// The list is no longer needed so it is destroyed
 	$("#productList").remove();
-	hideList();
+	hideList(); 
 
+	// Get the info of the selected product
 	$.when(
 		new Services().get().entity("product").find().uriData(Number(rowData.id)).promise()
 	).done(function(products){
@@ -224,7 +249,7 @@ function selectedProduct(e){
 		sessionStorage["product"] = JSON.stringify(product);
 		$("#name").val(product.name);
 		$("#model").val(product.model);
-		$("#comapny").val(product.company);
+		$("#company").val(product.company);
 		$("#type").val(product.type.name);
 		
 		if($("#deviceInfoForm").hasClass("addDevice")){
@@ -236,9 +261,12 @@ function selectedProduct(e){
 function selectedLocation(e){
 	var table = $('#locationTableId').DataTable();
 	var rowData = table.row(e).data();
+	
+	// The list is no longer needed so it is destroyed
 	$("#locationList").remove();
 	hideList();
 
+	// Get the info of the selected location
 	$.when(
 		new Services().get().entity("location").find().uriData(Number(rowData.id)).promise()
 	).done(function(locations){
@@ -251,13 +279,17 @@ function selectedLocation(e){
 		$("#postalCode").val(location.postalCode);
 		$("#city").val(location.city);
 		
+		// The add device sequencer monitors the construction 
+		// the new device
 		if($("#deviceInfoForm").hasClass("addDevice")){
 			addDeviceSequence();
 		}
+		// Reset the location of the google map
 		loadMap(parseFloat(location.latitude), parseFloat(location.longitude));
 	});
 }
 
+// Gets and appends a list to modal 
 function loadModalList(path,entity){
 	$.when(
 		new Services().get().entity(entity).findAll(),
@@ -266,7 +298,7 @@ function loadModalList(path,entity){
 		$("#rightFrame").append(html[0])
 		tableListSwitch(path,data);
 	}).fail(function(error) {
-		alert("Could not load all devices");
+		alert("Could not load list");
 	});
 }
 
@@ -274,41 +306,66 @@ function selectedUser (e) {
 	var table = $('#userTableId').DataTable();
 	var rowData = table.row(e).data();
 
+	// The list is no longer needed so it is destroyed
 	$("#userList").remove();
 	hideList();
 
+	// Get the info of the selected user
 	$.when(
 			new Services().get().entity("user").find().uriData(Number(rowData.id)).promise()
 	).then(function(users){
 		var user = users[0];
 		sessionStorage["user"] = JSON.stringify(user);
 		$("#user").val(user.firstName + " " + user.lastName );
+		$("#officeEmail").val(user.officeEmail);
+		$("#companyTitle").val(user.companyTitle);
 		$("#department").val(user.department.name);
 		
+		// The add device sequencer monitors the construction 
+		// the new device 
 		if($("#deviceInfoForm").hasClass("addDevice")){
 			addDeviceSequence();
 		}
 	});
 }
 
+
 function tableListSwitch (path,data){
 	switch (path){
-	case "html/UserList.html":
+	case "html/device/lists/UserList.html":
 		initializeUserTable(data[0]);
 		break;
-	case "html/ProductList.html":
+	case "html/device/lists/ProductList.html":
 		initializeProductTable(data[0]);
 		break;
-	case "html/LocationList.html":
+	case "html/device/lists/LocationList.html":
 		initializeLocationTable(data[0]);
 		break;
-	case "html/TypeList.html":
+	case "html/device/lists/TypeList.html":
 		initializeTypeTable(data[0]);
 		break;
 	}
 }
 
+// When an input is empty, the json value is set to null
 var emptyStringsAndZerosToNulls = function(val, inputName) {
 	  if (val.trim() === "") return null; // parse empty strings as nulls
 		  return val.trim();
+}
+
+function formIsEmpty(json){
+	var numberOffFields = Object.keys(json).length;
+	var empty = false;
+	var emptyFields = 0;
+	
+	if (numberOffFields <= 0){ return empty = true; }
+	
+	for (var key in json) {
+		if (json[key] === null) { emptyFields ++; }
+	}
+	
+	if (numberOffFields === emptyFields){empty = true;}
+	
+	return empty;
+	
 }
